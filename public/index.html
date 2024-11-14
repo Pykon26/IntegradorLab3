@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Pedidos de Venta</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <h1>Pedidos de Venta</h1>
+
+    <!-- Grilla para mostrar pedidos -->
+    <table id="tablaPedidos">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Cliente</th>
+                <th>Fecha</th>
+                <th>Total</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="contenidoTabla"></tbody>
+    </table>
+
+    <!-- Formulario para crear/editar pedidos -->
+    <form id="formPedido">
+        <label for="cliente">Cliente:</label>
+        <select id="cliente" name="cliente"></select>
+
+        <label for="fechaPedido">Fecha:</label>
+        <input type="date" id="fechaPedido" name="fechaPedido">
+
+        <label for="productos">Productos:</label>
+        <select id="productos" name="productos"></select>
+
+        <button type="submit">Guardar</button>
+    </form>
+
+    <script src="js/main.js" type="module"></script>
+</body>
+
+</html>
