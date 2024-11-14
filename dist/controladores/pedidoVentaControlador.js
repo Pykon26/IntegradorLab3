@@ -12,9 +12,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.buscarPedidoVenta = exports.obtenerPedidoVenta = exports.eliminarPedidoVenta = exports.modificarPedidoVenta = exports.crearPedidoVenta = void 0;
 const database_1 = require("../database");
 const crearPedidoVenta = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { idcliente, fechaPedido, nroComprobante, formaPago, observaciones, totalPedido } = req.body;
+    const { idcliente, fechaPedido, nroComprobante, formaPago, observaciones } = req.body;
     try {
-        const [result] = yield database_1.db.execute('INSERT INTO pedido_venta (idcliente, fechaPedido, nroComprobante, formaPago, observaciones, totalPedido) VALUES (?, ?, ?, ?, ?, ?)', [idcliente, fechaPedido, nroComprobante, formaPago, observaciones, totalPedido]);
+        const [result] = yield database_1.db.execute('INSERT INTO pedido_venta (idcliente, fechaPedido, nroComprobante, formaPago, observaciones) VALUES (?, ?, ?, ?, ?)', [idcliente, fechaPedido, nroComprobante, formaPago, observaciones]);
         res.status(201).json({ message: 'Pedido de venta creado', id: result.insertId });
     }
     catch (error) {

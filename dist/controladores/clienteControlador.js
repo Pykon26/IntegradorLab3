@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.obtenerCliente = void 0;
+exports.obtenerClienteid = exports.obtenerCliente = void 0;
 const database_1 = require("../database");
 const obtenerCliente = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -26,3 +26,19 @@ const obtenerCliente = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.obtenerCliente = obtenerCliente;
+const obtenerClienteid = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    try {
+        const [rows] = yield database_1.db.execute('SELECT * FROM cliente WHERE id = ?', [id]);
+        if (rows.length > 0) {
+            res.status(200).json(rows);
+        }
+        else {
+            res.status(404).json({ message: 'Pedido de venta no encontrado' });
+        }
+    }
+    catch (error) {
+        res.status(500).json({ message: 'Error al obtener pedido de venta', error });
+    }
+});
+exports.obtenerClienteid = obtenerClienteid;

@@ -10,11 +10,12 @@
 
 <body>
     <div class="container">
+        <!-- Header -->
         <header>
             <h1>Gestión de Pedidos de Venta</h1>
         </header>
 
-        <!-- Grilla para mostrar pedidos -->
+        <!-- Grilla de pedidos -->
         <section class="grilla">
             <h2>Lista de Pedidos</h2>
             <table id="tablaPedidos">
@@ -34,36 +35,22 @@
         <!-- Formulario para crear/editar pedidos -->
         <section class="formulario">
             <h2>Crear / Editar Pedido de Venta</h2>
-
             <form id="formPedido">
-                <!-- Lista de productos -->
                 <div class="form-group">
-                    <label for="productos">Producto:</label>
-                    <select id="productos" name="productos">
-                        <option value="">Selecciona un Producto</option>
-                        <!-- Opciones de productos se agregarán dinámicamente -->
-                    </select>
+                    <label for="clientes">Cliente:</label>
+                    <select id="clientes" name="clientes"></select>
                 </div>
 
-                <!-- Campo para agregar productos a un pedido -->
                 <div class="form-group">
-                    <label for="cantidad">Cantidad:</label>
-                    <input type="number" id="cantidad" name="cantidad" min="1" placeholder="Cantidad de producto">
+                    <label for="fechaPedido">Fecha:</label>
+                    <input type="date" id="fechaPedido" name="fechaPedido">
                 </div>
 
-                <button type="button" id="agregarProducto" class="btn">Agregar Producto</button>
-
-                <!-- Lista de productos agregados -->
-                <h3>Productos Agregados</h3>
-                <ul id="productosAgregados" class="productos-lista"></ul>
-
-                <!-- Número de comprobante -->
                 <div class="form-group">
-                    <label for="nroComprobante">Número de Comprobante:</label>
-                    <input type="number" id="nroComprobante" name="nroComprobante" placeholder="Número de Comprobante">
+                    <label for="nroComprobante">Nro Comprobante:</label>
+                    <input type="number" id="nroComprobante" name="nroComprobante">
                 </div>
 
-                <!-- Forma de pago -->
                 <div class="form-group">
                     <label for="formaPago">Forma de Pago:</label>
                     <select id="formaPago" name="formaPago">
@@ -74,16 +61,33 @@
                     </select>
                 </div>
 
-                <!-- Observaciones -->
                 <div class="form-group">
-                    <label for="Observaciones">Observaciones:</label>
-                    <textarea id="Observaciones" name="Observaciones" placeholder="Observaciones sobre el pedido" style="width: 100%; height: 150px;"></textarea>
+                    <label for="observaciones">Observaciones:</label>
+                    <textarea id="observaciones" name="observaciones" style="width: 100%; height: 150px;"></textarea>
                 </div>
 
-                <!-- Botones -->
-                <button type="submit" class="btn">Guardar Pedido</button>
+                <button type="submit" class="btn">Guardar</button>
             </form>
         </section>
+
+        <!-- Selección de productos -->
+        <section class="productos">
+            <h2>Seleccionar Productos</h2>
+            <div class="form-group">
+                <label for="productos">Producto:</label>
+                <select id="productos" name="productos"></select>
+            </div>
+
+            <div class="form-group">
+                <label for="cantidad">Cantidad:</label>
+                <input type="number" id="cantidad" name="cantidad">
+            </div>
+
+            <button type="submit" class="btn">Agrgar Producto</button>
+
+        </section>
+        
+        <button type="submit" class="btn">Finalizar Pedido</button>
 
         <!-- Buscador de pedidos -->
         <section class="buscador">
@@ -91,7 +95,7 @@
             <form id="formBusqueda">
                 <div class="form-group">
                     <label for="nroComprobanteBusqueda">Número de Comprobante:</label>
-                    <input type="text" id="nroComprobanteBusqueda" name="nroComprobanteBusqueda" placeholder="Buscar por número de comprobante">
+                    <input type="text" id="nroComprobanteBusqueda" name="nroComprobanteBusqueda">
                 </div>
 
                 <div class="form-group">
@@ -103,10 +107,10 @@
                 <button type="submit" class="btn">Buscar</button>
             </form>
         </section>
-
-        <!-- Llamada al script JS -->
-        <script src="pruebas.js" type="module"></script>
     </div>
+
+    <!-- Llamada al script JS -->
+    <script src="pruebas.js" type="module"></script>
 </body>
 
 </html>

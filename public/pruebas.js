@@ -1,6 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     cargarProductos();
     cargarClientes();
+    const formPedido = document.getElementById('formPedido');
+    formPedido.addEventListener('submit', guardarPedido);  // Agregar el event listener al formulario
+
   });
   
 
@@ -57,34 +60,43 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // async function guardarPedido() {
-    //     const form = document.getElementById("formPedido");
-    //     const cliente = document.getElementById('cliente').value;
-    //     const fechaPedido = document.getElementById('fechaPedido').value;
-    //     const producto = document.getElementById('producto').value;
-      
-    //     const pedido = {
-    //       idCliente: parseInt(cliente),
-    //       fechaPedido: new Date(fechaPedido),
-    //       producto
-    //     };
-      
-    //     try {
-    //       const method = id? 'PUT' : 'POST';
-    //       const url = id? /api/pedidos/${id} : '/api/pedidos';
-    //       const response = await fetch(url, {
-    //         method,
-    //         headers: {
-    //           'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify(pedido),
-    //       });
-      
-    //       if (!response.ok) throw new Error('Error al guardar pedido');
-    //       alert(id ? 'Pedido actualizado' : 'Pedido guardado');
-    //       cargarPedidos();
-    //     } catch (error) {
-    //       console.error('Error al guardar pedido:', error);
-    //     }
-    //   }
-   
+        async function guardarPedido(event) {
+            event.preventDefault();  // Evitar que el formulario se envíe de manera tradicional
+
+            console.log("hola6");
+            const cliente = document.getElementById('clientes').value;
+            const nroComprobante = document.getElementById('nroComprobante').value;
+            const formaPago = document.getElementById('formaPago').value;
+            const observaciones = document.getElementById('observaciones').value;
+            const fechaPedido = document.getElementById('fechaPedido').value;
+            console.log("ID CLIENT SUPUESTAMENTE: "+document.getElementById('clientes').value)   
+            console.log("chau");
+ 
+            const pedido = {
+                idcliente: parseInt(cliente),
+                fechaPedido: new Date(fechaPedido),
+                nroComprobante,
+                formaPago,
+                observaciones
+            };
+            
+            console.log("hola");
+            console.log(pedido);
+        
+            try {
+            const method = 'POST';
+            const response = await fetch('/api/pedido_venta', {
+                method,
+                headers: {
+                'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(pedido),
+            });
+        
+            if (!response.ok) throw new Error('Error al guardar pedido');
+            alert(id ? 'Pedido actualizado' : 'Pedido guardado');
+            cargarPedidos();
+            } catch (error) {
+            console.error('Error al guardar pedido:', error);
+            }
+    }

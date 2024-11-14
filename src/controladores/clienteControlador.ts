@@ -20,3 +20,23 @@ export const obtenerCliente = async (req: Request, res: Response) => {
     }
 };
 
+export const obtenerClienteid = async (req: Request, res: Response) => {
+    const { id } = req.params;
+
+    try {
+        const [rows] = await db.execute<RowDataPacket[]>(
+            'SELECT * FROM cliente WHERE id = ?',
+            [id]
+        );
+
+        if (rows.length > 0) {
+            res.status(200).json(rows);
+        } else {
+            res.status(404).json({ message: 'Pedido de venta no encontrado' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Error al obtener pedido de venta', error });
+    }
+};
+
+
