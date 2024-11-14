@@ -1,22 +1,145 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
+/* Reset de estilos por defecto */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
+
+/* Contenedor general */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: #007bff;
+}
+
+/* Grilla de Pedidos */
+.grilla {
+    margin-bottom: 30px;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
-table, th, td {
-    border: 1px solid #ccc;
-}
+
 th, td {
     padding: 10px;
-    text-align: left;
+    text-align: center;
+    border: 1px solid #ddd;
 }
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    max-width: 300px;
+
+th {
+    background-color: #007bff;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Formularios */
+.formulario {
+    margin-top: 30px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+textarea {
+    height: 150px;
+    resize: vertical;
+}
+
+/* Botones */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-success {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+
+/* Buscador */
+.buscador {
+    margin-top: 40px;
+    padding-top: 10px;
+    border-top: 2px solid #ddd;
+}
+
+h2 {
+    color: #007bff;
+    margin-bottom: 15px;
+}
+
+/* Estilos responsive */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    table, .form-group {
+        font-size: 0.9rem;
+    }
 }
