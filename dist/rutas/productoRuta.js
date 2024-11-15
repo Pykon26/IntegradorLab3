@@ -8,4 +8,5 @@ const productoControlador_1 = require("../controladores/productoControlador");
 const router = express_1.default.Router();
 //rutas para los metodos de pedidoVentaControlador.ts
 router.get('/productos', productoControlador_1.obtenerProductos);
+router.get('/productos/:id', productoControlador_1.obtenerProductoPrecioid);
 exports.default = router;

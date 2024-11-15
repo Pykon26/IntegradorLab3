@@ -73,18 +73,22 @@
         <!-- Selección de productos -->
         <section class="productos">
             <h2>Seleccionar Productos</h2>
-            <div class="form-group">
-                <label for="productos">Producto:</label>
-                <select id="productos" name="productos"></select>
-            </div>
-
-            <div class="form-group">
-                <label for="cantidad">Cantidad:</label>
-                <input type="number" id="cantidad" name="cantidad">
-            </div>
-
-            <button type="submit" class="btn">Agrgar Producto</button>
-
+            <form id="formProductoDetalle">
+                
+                <div class="form-group">
+                    <label for="productos">Producto:</label>
+                    <select id="productos" name="productos"></select>
+                </div>
+    
+                <div class="form-group">
+                    <label for="cantidad">Cantidad:</label>
+                    <input type="number" id="cantidad" name="cantidad">
+                </div>
+    
+                <button type="submit" class="btn">Agregar Producto</button>
+                    
+            </form>
+            
         </section>
         
         <button type="submit" class="btn">Finalizar Pedido</button>

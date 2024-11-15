@@ -32,10 +32,10 @@ export const obtenerClienteid = async (req: Request, res: Response) => {
         if (rows.length > 0) {
             res.status(200).json(rows);
         } else {
-            res.status(404).json({ message: 'Pedido de venta no encontrado' });
+            res.status(404).json({ message: 'Cliente no encontrado' });
         }
     } catch (error) {
-        res.status(500).json({ message: 'Error al obtener pedido de venta', error });
+        res.status(500).json({ message: 'Error al obtener Cliente', error });
     }
 };
 

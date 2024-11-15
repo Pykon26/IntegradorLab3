@@ -34,11 +34,11 @@ const obtenerClienteid = (req, res) => __awaiter(void 0, void 0, void 0, functio
             res.status(200).json(rows);
         }
         else {
-            res.status(404).json({ message: 'Pedido de venta no encontrado' });
+            res.status(404).json({ message: 'Cliente no encontrado' });
         }
     }
     catch (error) {
-        res.status(500).json({ message: 'Error al obtener pedido de venta', error });
+        res.status(500).json({ message: 'Error al obtener Cliente', error });
     }
 });
 exports.obtenerClienteid = obtenerClienteid;

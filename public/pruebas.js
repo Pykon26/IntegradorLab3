@@ -3,6 +3,9 @@ document.addEventListener('DOMContentLoaded', () => {
     cargarClientes();
     const formPedido = document.getElementById('formPedido');
     formPedido.addEventListener('submit', guardarPedido);  // Agregar el event listener al formulario
+    const formProductoDetalle = document.getElementById('formProductoDetalle');
+    formProductoDetalle.addEventListener('submit', guardarPedidoDetalle);  // Agregar el event listener al formulario
+
 
   });
   
@@ -63,15 +66,11 @@ document.addEventListener('DOMContentLoaded', () => {
         async function guardarPedido(event) {
             event.preventDefault();  // Evitar que el formulario se envíe de manera tradicional
 
-            console.log("hola6");
             const cliente = document.getElementById('clientes').value;
             const nroComprobante = document.getElementById('nroComprobante').value;
             const formaPago = document.getElementById('formaPago').value;
             const observaciones = document.getElementById('observaciones').value;
             const fechaPedido = document.getElementById('fechaPedido').value;
-            console.log("ID CLIENT SUPUESTAMENTE: "+document.getElementById('clientes').value)   
-            console.log("chau");
- 
             const pedido = {
                 idcliente: parseInt(cliente),
                 fechaPedido: new Date(fechaPedido).toLocaleDateString('en-CA'),
@@ -81,8 +80,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 totalPedido: null
             };
             
-            console.log("hola");
-            console.log(pedido);
         
             try {
             const response = await fetch('/api/pedido_venta', {
@@ -100,3 +97,50 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error al guardar pedido:', error);
             }
     }
+
+
+async function guardarPedidoDetalle(event) {
+    event.preventDefault();  // Evitar que el formulario se envíe de manera tradicional
+
+    const producto = document.getElementById('productos').value;
+    const cantidad = document.getElementById('cantidad').value;
+
+    // Primer fetch para obtener el precio del producto
+    let precioProducto;
+
+    try {
+        const response = await fetch(`/api/productos/${producto}`);
+        console.log(response);
+        if (!response.ok) throw new Error('Error al cargar precios');
+        precioProducto = await response.json();
+    } catch (error) {
+        console.error(error);
+        return;  // Salir de la función si hay un error
+    }
+    const clienteId = document.getElementById('clientes').value;
+    console.log(clienteId);
+    let subtotal = parseFloat(cantidad) * parseFloat(precioProducto.precioVenta);
+    const pedidoDetalle = {
+        idpedidoVenta: 1,
+        idproducto: parseInt(producto),
+        cantidad: parseInt(cantidad),
+        subtotal
+    };
+
+    
+    // Segundo fetch para guardar el detalle del pedido
+    try {
+        const response = await fetch('/api/pedido_venta_detalle', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(pedidoDetalle),
+        });
+
+        if (!response.ok) throw new Error('Error al guardar pedido detalle');
+        alert('Pedido Detalle Guardado');
+    } catch (error) {
+        console.error('Error al guardar pedido:', error);
+    }
+}
