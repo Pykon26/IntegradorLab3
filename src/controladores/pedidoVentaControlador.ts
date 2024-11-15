@@ -3,11 +3,11 @@ import { db } from '../database';
 import { ResultSetHeader, RowDataPacket } from 'mysql2';
 
 export const crearPedidoVenta = async (req: Request, res: Response) => {
-    const { idcliente, fechaPedido, nroComprobante, formaPago, observaciones } = req.body;
+    const { idcliente, fechaPedido, nroComprobante, formaPago, observaciones,totalPedido } = req.body;
     try {
         const [result] = await db.execute<ResultSetHeader>(
-            'INSERT INTO pedido_venta (idcliente, fechaPedido, nroComprobante, formaPago, observaciones) VALUES (?, ?, ?, ?, ?)',
-            [idcliente, fechaPedido, nroComprobante, formaPago, observaciones]
+            'INSERT INTO pedido_venta (idcliente, fechaPedido, nroComprobante, formaPago, observaciones, totalPedido) VALUES (?, ?, ?, ?, ?, ?)',
+            [idcliente, fechaPedido, nroComprobante, formaPago, observaciones,totalPedido]
         );
 
         res.status(201).json({ message: 'Pedido de venta creado', id: result.insertId });

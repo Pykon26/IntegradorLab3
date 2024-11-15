@@ -74,19 +74,19 @@ document.addEventListener('DOMContentLoaded', () => {
  
             const pedido = {
                 idcliente: parseInt(cliente),
-                fechaPedido: new Date(fechaPedido),
+                fechaPedido: new Date(fechaPedido).toLocaleDateString('en-CA'),
                 nroComprobante,
                 formaPago,
-                observaciones
+                observaciones,
+                totalPedido: null
             };
             
             console.log("hola");
             console.log(pedido);
         
             try {
-            const method = 'POST';
             const response = await fetch('/api/pedido_venta', {
-                method,
+                method : 'POST',
                 headers: {
                 'Content-Type': 'application/json',
                 },
@@ -94,8 +94,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         
             if (!response.ok) throw new Error('Error al guardar pedido');
-            alert(id ? 'Pedido actualizado' : 'Pedido guardado');
-            cargarPedidos();
+            alert('Pedido guardado');
+            //cargarPedidos();
             } catch (error) {
             console.error('Error al guardar pedido:', error);
             }
