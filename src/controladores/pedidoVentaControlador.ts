@@ -40,14 +40,14 @@ export const obtenerPedidoVentaId = async (req: Request, res: Response) => {
     const { id } = req.params;
 
     try {
-        // Aseguramos que rows es de tipo RowDataPacket[]
+        //rows es de tipo RowDataPacket[]
         const [rows] = await db.execute<RowDataPacket[]>(
             'SELECT * FROM pedido_venta WHERE id = ?',
             [id]
         );
 
         if (rows.length > 0) {
-            res.status(200).json(rows[0]); // Retorna el pedido encontrado
+            res.status(200).json(rows[0]);
         } else {
             res.status(404).json({ message: 'Pedido de venta no encontrado' });
         }
@@ -55,9 +55,6 @@ export const obtenerPedidoVentaId = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Error al obtener pedido de venta', error });
     }
 };
-
-
-
 
 export const eliminarPedidoVenta = async (req: Request, res: Response) => {
     const { id } = req.params;
@@ -97,7 +94,6 @@ export const obtenerPedidoVenta = async (req: Request, res: Response) => {
     }
 };
 
-
 export const buscarPedidoVentaNroComprobante = async (req: Request, res: Response) => {
     const { nroComprobante } = req.params;
 
@@ -123,10 +119,9 @@ export const buscarPedidoVentaNroComprobante = async (req: Request, res: Respons
     }
 };
 
-
 export const buscarPedidoVentaPorFechas = async (req: Request, res: Response) => {
     const { fechaInicio, fechaFin } = req.query;
-
+    
     try {
         if (fechaInicio && fechaFin) {
             // Busca por rango de fechas
@@ -149,7 +144,6 @@ export const buscarPedidoVentaPorFechas = async (req: Request, res: Response) =>
     }
 };
 
-
 export const obtenerPedidoVentaid = async (req: Request, res: Response) => {
     const { nroComprobante, idcliente } = req.params;  // Obtener ambos parámetros desde los parámetros de la URL
 
@@ -169,8 +163,7 @@ export const obtenerPedidoVentaid = async (req: Request, res: Response) => {
     }
 };
 
-
- export const ActualizarTotalPedido = async (req: Request, res: Response) => {
+export const ActualizarTotalPedido = async (req: Request, res: Response) => {
      const { totalPedido, id} = req.params;
 
      try {
@@ -187,6 +180,4 @@ export const obtenerPedidoVentaid = async (req: Request, res: Response) => {
      } catch (error) {
          res.status(500).json({ message: 'Error al modificar total de pedido de venta', error });
      }
- };
-
-
+};

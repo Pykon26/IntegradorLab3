@@ -78,8 +78,9 @@ export const eliminarDetallePedidoVenta = async (req: Request, res: Response) =>
         res.status(500).json({ message: 'Error al eliminar detalle de pedido de venta', error });
     }
 };
- export const obtenerPedidoDetallesSubtotales = async (req: Request, res: Response) => {
-     const { id } = req.params;  // Obtener el id de los parámetros de la URL
+
+export const obtenerPedidoDetallesSubtotales = async (req: Request, res: Response) => {
+    const { id } = req.params;  // Obtener el id de los parámetros de la URL
 
     try {
         const [rows] = await db.execute<RowDataPacket[]>(
@@ -87,16 +88,16 @@ export const eliminarDetallePedidoVenta = async (req: Request, res: Response) =>
             [id]
         );
 
-       // Si se encontraron filas con los subtotales
-       if (rows.length > 0) {
-           // Sumar todos los subtotales
-           const totalSubtotales = rows.reduce((total, row) => total + parseFloat(row.subtotal), 0);
-           res.status(200).json({ totalSubtotales });  // Devuelve el total de los subtotales
-       } else {
-           res.status(404).json({ message: 'Detalles de pedido de venta no encontrados' });
-       }
-   } catch (error) {
-       res.status(500).json({ message: 'Error al obtener detalles de pedido de venta', error });
-   }
- };
+        // Si se encontraron filas con los subtotales
+        if (rows.length > 0) {
+            // Sumar todos los subtotales
+            const totalSubtotales = rows.reduce((total, row) => total + parseFloat(row.subtotal), 0);
+            res.status(200).json({ totalSubtotales });  // Devuelve el total de los subtotales
+        } else {
+            res.status(404).json({ message: 'Detalles de pedido de venta no encontrados' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Error al obtener detalles de pedido de venta', error });
+    }
+};
 

@@ -30,7 +30,7 @@ export const obtenerClienteid = async (req: Request, res: Response) => {
         );
 
         if (rows.length > 0) {
-            res.status(200).json(rows[0]); // Devolver solo el primer cliente
+            res.status(200).json(rows[0]);
         } else {
             res.status(404).json({ message: 'Cliente no encontrado' });
         }

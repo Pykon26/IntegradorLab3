@@ -4,21 +4,20 @@ document.addEventListener('DOMContentLoaded', () => {
     cargarClientes();
 
     const formPedido = document.getElementById('formPedido');
-    formPedido.addEventListener('submit', guardarPedido);  // Agregar el event listener al formulario
+    formPedido.addEventListener('submit', guardarPedido);
+
     const formProductoDetalle = document.getElementById('formProductoDetalle');
-    formProductoDetalle.addEventListener('submit', guardarPedidoDetalle);  // Agregar el event listener al formulario
+    formProductoDetalle.addEventListener('submit', guardarPedidoDetalle);
+    
     const btnFinalizarPedido = document.getElementById('btnFinalizarPedido');
-    btnFinalizarPedido.addEventListener('click', ActualizarTotalPedido);  // Agregar el event listener al formulario
+    btnFinalizarPedido.addEventListener('click', ActualizarTotalPedido);
 
     const btnNroComprobanteBusqueda = document.getElementById('btnNroComprobanteBusqueda');
     btnNroComprobanteBusqueda.addEventListener('click', buscarPedidoPorComprobante);
 
     const btnFechaBusqueda = document.getElementById('btnFechaBusqueda');
     btnFechaBusqueda.addEventListener('click', buscarPedidoPorFecha);
-    
-
 });
-
 
 async function cargarProductos() {
     try {
@@ -27,25 +26,25 @@ async function cargarProductos() {
         const productos = await response.json();
 
         const productosSelect = document.getElementById('productos');
-        productosSelect.innerHTML = '';  // Limpiar las opciones actuales
+        productosSelect.innerHTML = '';
 
-        // Crear una opción por defecto
         const opcionDefault = document.createElement('option');
         opcionDefault.value = '';
         opcionDefault.textContent = 'Seleccione un producto';
         productosSelect.appendChild(opcionDefault);
 
-        // Agregar las opciones de productos
+        //agrega opciones de productos
         productos.forEach((producto) => {
             const option = document.createElement('option');
-            option.value = producto.id;  // Establecer el ID del producto como valor
-            option.textContent = producto.denominacion;  // Mostrar el código del producto
+            option.value = producto.id;
+            option.textContent = producto.denominacion;
             productosSelect.appendChild(option);
         });
     } catch (error) {
         console.error('Error al cargar productos:', error);
     }
 }
+
 async function cargarClientes() {
     try {
         const response = await fetch('/api/clientes');
@@ -53,19 +52,18 @@ async function cargarClientes() {
         const clientes = await response.json();
 
         const clientesSelect = document.getElementById('clientes');
-        clientesSelect.innerHTML = '';  // Limpiar las opciones actuales
+        clientesSelect.innerHTML = '';
 
-        // Crear una opción por defecto
         const opcionDefault = document.createElement('option');
         opcionDefault.value = '';
         opcionDefault.textContent = 'Seleccione un cliente';
         clientesSelect.appendChild(opcionDefault);
 
-        // Agregar las opciones de clientes
+        //opciones de clientes
         clientes.forEach((cliente) => {
             const option = document.createElement('option');
-            option.value = cliente.id;  // Establecer el ID del clientes como valor
-            option.textContent = cliente.razonSocial;  // Mostrar el código del cliente
+            option.value = cliente.id;
+            option.textContent = cliente.razonSocial;
             clientesSelect.appendChild(option);
         });
     } catch (error) {
@@ -73,18 +71,17 @@ async function cargarClientes() {
     }
 }
 
-
 async function guardarPedido(event) {
-    event.preventDefault();  // Evitar que el formulario se envíe de manera tradicional
+    event.preventDefault();
 
-    // Obtener los valores del formulario
+    //valores formulario
     const cliente = document.getElementById('clientes').value;
     const nroComprobante = document.getElementById('nroComprobante').value;
     const formaPago = document.getElementById('formaPago').value;
     const observaciones = document.getElementById('observaciones').value;
     const fechaPedido = document.getElementById('fechaPedido').value;
 
-    // Crear el objeto del pedido
+    //objeto del pedido
     const pedido = {
         idcliente: parseInt(cliente),
         fechaPedido: new Date(fechaPedido).toLocaleDateString('en-CA'),
@@ -94,13 +91,12 @@ async function guardarPedido(event) {
         totalPedido: null
     };
 
-    // Bloquear el formulario (deshabilitar todos los campos)
+    //bloquea campos formulario
     const formElements = document.getElementById('formPedido').elements;
     Array.from(formElements).forEach(element => {
         element.disabled = true;
     });
 
-    // Mostrar mensaje mientras se guarda el pedido
     try {
         const response = await fetch('/api/pedido_venta', {
             method: 'POST',
@@ -117,14 +113,12 @@ async function guardarPedido(event) {
     }
 }
 
-
 async function guardarPedidoDetalle(event) {
-    event.preventDefault();  // Evitar que el formulario se envíe de manera tradicional
+    event.preventDefault();
 
     const producto = document.getElementById('productos').value;
     const cantidad = document.getElementById('cantidad').value;
 
-    // Primer fetch para obtener el precio del producto
     let precioProducto;
 
     try {
@@ -133,9 +127,8 @@ async function guardarPedidoDetalle(event) {
         precioProducto = await response.json();
     } catch (error) {
         console.error(error);
-        return;  // Salir de la función si hay un error
+        return;
     }
-
 
     const idcliente = document.getElementById('clientes').value;
     const nroComprobante = document.getElementById('nroComprobante').value;
@@ -148,9 +141,8 @@ async function guardarPedidoDetalle(event) {
         idpedidoVenta = await response.json();
     } catch (error) {
         console.error(error);
-        return;  // Salir de la función si hay un error
+        return;
     }
-
 
     let subtotal = parseFloat(cantidad) * parseFloat(precioProducto.precioVenta);
     const pedidoDetalle = {
@@ -178,11 +170,8 @@ async function guardarPedidoDetalle(event) {
     }
 }
 
-
 async function ActualizarTotalPedido(event) {
-
-
-    // Evitar que el formulario se envíe si es un botón de tipo submit
+    //evita que el formulario se envie si es un boton de tipo submit
     event.preventDefault();
 
     const idcliente = document.getElementById('clientes').value;
@@ -196,13 +185,10 @@ async function ActualizarTotalPedido(event) {
         idpedidoVenta = await response.json();
     } catch (error) {
         console.error(error);
-        return;  // Salir de la función si hay un error
+        return;
     }
     idpedidoVenta = parseInt(idpedidoVenta.id);
     console.log("ID PEDIDO VENTA: " + idpedidoVenta);
-
-    //const url = `/pedido_venta_detalle/subtotales/${parseInt(idpedidoVenta)}`
-
 
     let totalPedido = 0;
 
@@ -212,7 +198,7 @@ async function ActualizarTotalPedido(event) {
         totalPedido = await response.json();
     } catch (error) {
         console.error(error);
-        return;  // Salir de la función si hay un error
+        return;
     }
 
     console.log("TOTAL PEDIDO: " + totalPedido);
@@ -222,47 +208,39 @@ async function ActualizarTotalPedido(event) {
     const url = `localhost:3000/api/pedido_venta/${idpedidoVenta}/actualizar-total/${totalPedido}`
     console.log("URL: " + url);
 
-
     try {
         const response = await fetch(`/api/pedido_venta/${idpedidoVenta}/actualizar-total/${totalPedido}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ total: totalPedido }), // El cuerpo debe ser un objeto JSON
+            body: JSON.stringify({ total: totalPedido }),
         });
 
         if (!response.ok) {
             throw new Error('Error al actualizar el pedido');
         }
 
-        const data = await response.json(); // Parsear la respuesta JSON
+        const data = await response.json();
         console.log('Pedido actualizado:', data);
         alert('Pedido actualizado correctamente');
-        // Recargar la lista de pedidos o actualizar la interfaz según sea necesario
+        
     } catch (error) {
         console.error('Error al actualizar el pedido:', error);
         alert('Hubo un error al actualizar el pedido.');
     }
 
-
-
-    // Obtener los formularios
+    //obtener formulario
     const formProductoDetalle = document.getElementById('formProductoDetalle');
     const formPedido = document.getElementById('formPedido');
 
-    // Resetear ambos formularios
+    //resetear ambos formularios
     formProductoDetalle.reset();
     formPedido.reset();
 
-
-    // Hacer que los elementos de los formularios sean habilitados
     Array.from(formPedido.elements).forEach(element => element.disabled = false);
 
     cargarPedidos();
-    // Opcional: puedes agregar un mensaje o algo más al finalizar el pedido
-    //alert('El pedido ha sido finalizado y los formularios han sido restablecidos.');
-
 }
 
 async function cargarPedidos() {
@@ -292,7 +270,7 @@ async function cargarPedidos() {
                   <td></td>
                 `;
 
-                // Agregar botón de eliminar
+                //boton eliminar
                 const eliminarBtn = document.createElement('button');
                 eliminarBtn.textContent = 'Eliminar';
                 eliminarBtn.addEventListener('click', () => bajaPedido(pedido.id));
@@ -300,6 +278,7 @@ async function cargarPedidos() {
                 const actionsCell = row.querySelector('td:last-child');
                 actionsCell.appendChild(eliminarBtn);
 
+                //boton editar
                 const editarBtn = document.createElement('button');
                 editarBtn.textContent = 'Editar';
                 editarBtn.addEventListener('click', () => editarPedido(pedido.id));
@@ -307,15 +286,13 @@ async function cargarPedidos() {
                 const editarCell = row.querySelector('td:last-child');
                 editarCell.appendChild(editarBtn);
 
+                //boton pdf
                 const pdfBtn = document.createElement('button');
                 pdfBtn.textContent = 'PDF';
                 //pdfBtn.addEventListener('click', () => bajaPedido(pedido.id));
-    
+
                 const PDFCell = row.querySelector('td:last-child');
                 PDFCell.appendChild(pdfBtn);
-    
-
-                
 
                 pedidosTable.appendChild(row);
             } catch (error) {
@@ -334,16 +311,13 @@ async function bajaPedido(id) {
         });
         if (!response.ok) throw new Error('Error al eliminar pedido');
         alert('Pedido eliminado');
-        cargarPedidos(); // Recargar la tabla
+        cargarPedidos();
     } catch (error) {
         console.error('Error al eliminar pedido:', error);
     }
 }
 
-
-
 async function buscarPedidoPorComprobante(event) {
-    // Prevenir el comportamiento predeterminado del formulario (evitar recarga)
     event.preventDefault();
 
     const nroComprobanteInput = document.getElementById('nroComprobanteBusqueda');
@@ -353,7 +327,7 @@ async function buscarPedidoPorComprobante(event) {
     try {
         const response = await fetch(`/api/pedido_venta/buscar/${nroComprobante}`);
         if (!response.ok) throw new Error('Error al buscar el pedido');
-        
+
         const pedidos = await response.json();
 
         if (pedidos.length === 0) {
@@ -362,7 +336,7 @@ async function buscarPedidoPorComprobante(event) {
         }
 
         const pedidosTable = document.getElementById('tablaPedidos').querySelector('tbody');
-        pedidosTable.innerHTML = ''; // Limpiar tabla
+        pedidosTable.innerHTML = '';
 
         for (const pedido of pedidos) {
             const clienteResponse = await fetch(`/api/clientes/${pedido.idcliente}`);
@@ -380,7 +354,7 @@ async function buscarPedidoPorComprobante(event) {
                 <td>${pedido.totalPedido}</td>
                 <td></td>
                 `;
-                
+
             const eliminarBtn = document.createElement('button');
             eliminarBtn.textContent = 'Eliminar';
             eliminarBtn.addEventListener('click', () => bajaPedido(pedido.id));
@@ -410,14 +384,6 @@ async function buscarPedidoPorComprobante(event) {
     }
 }
 
-
-// Asociar evento al botón
-// editarBtn.addEventListener('click', function () {
-//     const idPedido = row.dataset.id; // Suponiendo que el ID del pedido está almacenado en un atributo data-id
-//     window.location.href = /editar-pedido?id=${idPedido};
-//   });
-
-
 async function buscarPedidoPorFecha(event) {
     event.preventDefault();
 
@@ -425,7 +391,6 @@ async function buscarPedidoPorFecha(event) {
     const fechaFinInput = document.getElementById('fechaFin');
     const fechaInicio = fechaInicioInput.value.trim();
     const fechaFin = fechaFinInput.value.trim();
-
 
     if (!fechaInicio || !fechaFin) {
         alert('Por favor, ingrese ambas fechas.');
@@ -462,7 +427,7 @@ async function buscarPedidoPorFecha(event) {
                 <td>${pedido.totalPedido}</td>
                 <td></td>
                 `;
-                
+
             const eliminarBtn = document.createElement('button');
             eliminarBtn.textContent = 'Eliminar';
             eliminarBtn.addEventListener('click', () => bajaPedido(pedido.id));
@@ -492,9 +457,7 @@ async function buscarPedidoPorFecha(event) {
     }
 }
 
-
 function editarPedido(idPedido) {
-    // Redirige a la página de edición pasando el ID como parámetro
+    //ir a edicion.html
     window.location.href = `edicion.html?id=${idPedido}`;
-
-  }
+}

@@ -42,10 +42,10 @@ exports.modificarPedidoVenta = modificarPedidoVenta;
 const obtenerPedidoVentaId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     try {
-        // Aseguramos que rows es de tipo RowDataPacket[]
+        //rows es de tipo RowDataPacket[]
         const [rows] = yield database_1.db.execute('SELECT * FROM pedido_venta WHERE id = ?', [id]);
         if (rows.length > 0) {
-            res.status(200).json(rows[0]); // Retorna el pedido encontrado
+            res.status(200).json(rows[0]);
         }
         else {
             res.status(404).json({ message: 'Pedido de venta no encontrado' });

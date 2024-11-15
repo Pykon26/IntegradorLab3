@@ -1,125 +1,114 @@
 <!DOCTYPE html>
 <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Gestión de Pedidos de Venta</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Pedidos de Venta</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Gestión de Pedidos de Venta</h1>
+            </header>
+            <!--formulario ppal-->
+            <section class="formulario">
+                <h2>Crear / Editar Pedido de Venta</h2>
+                <form id="formPedido">
+                    <div class="form-group">
+                        <label for="clientes">Cliente:</label>
+                        <select id="clientes" name="clientes"></select>
+                    </div>
 
-<body>
-    <div class="container">
-        <!-- Header -->
-        <header>
-            <h1>Gestión de Pedidos de Venta</h1>
-        </header>
+                    <div class="form-group">
+                        <label for="fechaPedido">Fecha:</label>
+                        <input type="date" id="fechaPedido" name="fechaPedido">
+                    </div>
 
-      
+                    <div class="form-group">
+                        <label for="nroComprobante">Nro Comprobante:</label>
+                        <input type="number" id="nroComprobante" name="nroComprobante">
+                    </div>
 
-        <!-- Formulario para crear/editar pedidos -->
-        <section class="formulario">
-            <h2>Crear / Editar Pedido de Venta</h2>
-            <form id="formPedido">
-                <div class="form-group">
-                    <label for="clientes">Cliente:</label>
-                    <select id="clientes" name="clientes"></select>
-                </div>
+                    <div class="form-group">
+                        <label for="formaPago">Forma de Pago:</label>
+                        <select id="formaPago" name="formaPago">
+                            <option value="Efectivo">Efectivo</option>
+                            <option value="transferencia">Transferencia</option>
+                            <option value="TarjetaCredito">Tarjeta de Crédito</option>
+                            <option value="TarjetaDebito">Tarjeta de Débito</option>
+                        </select>
+                    </div>
 
-                <div class="form-group">
-                    <label for="fechaPedido">Fecha:</label>
-                    <input type="date" id="fechaPedido" name="fechaPedido">
-                </div>
+                    <div class="form-group">
+                        <label for="observaciones">Observaciones:</label>
+                        <textarea id="observaciones" name="observaciones" style="width: 100%; height: 150px;"></textarea>
+                    </div>
 
-                <div class="form-group">
-                    <label for="nroComprobante">Nro Comprobante:</label>
-                    <input type="number" id="nroComprobante" name="nroComprobante">
-                </div>
+                    <button type="submit" class="btn">Guardar</button>
+                </form>
+            </section>
 
-                <div class="form-group">
-                    <label for="formaPago">Forma de Pago:</label>
-                    <select id="formaPago" name="formaPago">
-                        <option value="Efectivo">Efectivo</option>
-                        <option value="transferencia">Transferencia</option>
-                        <option value="TarjetaCredito">Tarjeta de Crédito</option>
-                        <option value="TarjetaDebito">Tarjeta de Débito</option>
-                    </select>
-                </div>
+            <!--selección de productos-->
+            <section class="productos">
+                <h2>Seleccionar Productos</h2>
+                <form id="formProductoDetalle">
+                    <div class="form-group">
+                        <label for="productos">Producto:</label>
+                        <select id="productos" name="productos"></select>
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="cantidad">Cantidad:</label>
+                        <input type="number" id="cantidad" name="cantidad">
+                    </div>
+        
+                    <button type="submit" class="btn">Agregar Producto</button> 
+                </form>  
+            </section>
+            <section>
+                <button type="submit" class="btn" id="btnFinalizarPedido">Finalizar Pedido</button>
+            </section>
 
-                <div class="form-group">
-                    <label for="observaciones">Observaciones:</label>
-                    <textarea id="observaciones" name="observaciones" style="width: 100%; height: 150px;"></textarea>
-                </div>
-
-                <button type="submit" class="btn">Guardar</button>
-            </form>
-        </section>
-
-        <!-- Selección de productos -->
-        <section class="productos">
-            <h2>Seleccionar Productos</h2>
-            <form id="formProductoDetalle">
-
-                <div class="form-group">
-                    <label for="productos">Producto:</label>
-                    <select id="productos" name="productos"></select>
-                </div>
-    
-                <div class="form-group">
-                    <label for="cantidad">Cantidad:</label>
-                    <input type="number" id="cantidad" name="cantidad">
-                </div>
-    
-                <button type="submit" class="btn">Agregar Producto</button>
-                    
-            </form>
-            
-        </section>
-        <section>
-        <button type="submit" class="btn" id="btnFinalizarPedido">Finalizar Pedido</button>
-        </section>
-
-        <!-- Buscador de pedidos -->
-        <section class="buscador">
-            <h2>Buscar Pedido</h2>
-            <form id="formBusqueda">
-                <div class="form-group">
-                    <label for="nroComprobanteBusqueda">Número de Comprobante:</label>
-                    <input type="number" id="nroComprobanteBusqueda" name="nroComprobanteBusqueda">
-                </div>
-                <button id="btnNroComprobanteBusqueda" type="submit" class="btn">Buscar</button>
+            <!--buscador de pedidos -->
+            <section class="buscador">
+                <h2>Buscar Pedido</h2>
+                <form id="formBusqueda">
+                    <div class="form-group">
+                        <label for="nroComprobanteBusqueda">Número de Comprobante:</label>
+                        <input type="number" id="nroComprobanteBusqueda" name="nroComprobanteBusqueda">
+                    </div>
+                    <button id="btnNroComprobanteBusqueda" type="submit" class="btn">Buscar</button>
                 </form>
                 <form>
-                <div class="form-group">
-                    <label for="rangoFechas">Rango de Fechas:</label>
-                    <input type="date" id="fechaInicio" name="fechaInicio">
-                    <input type="date" id="fechaFin" name="fechaFin">
-                </div>
-                <button id="btnFechaBusqueda" type="submit" class="btn">Buscar</button>
-            </form>
-        </section>
+                    <div class="form-group">
+                        <label for="rangoFechas">Rango de Fechas:</label>
+                        <input type="date" id="fechaInicio" name="fechaInicio">
+                        <input type="date" id="fechaFin" name="fechaFin">
+                    </div>
+                    <button id="btnFechaBusqueda" type="submit" class="btn">Buscar</button>
+                </form>
+            </section>
 
-          <!-- Grilla de pedidos -->
-          <section class="grilla">
-            <h2>Lista de Pedidos</h2>
-            <table id="tablaPedidos">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Razon Social Cliente</th>
-                        <th>Fecha</th>
-                        <th>Nro Comprobante</th>
-                        <th>Total</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody id="contenidoTabla"></tbody>
-            </table>
-        </section>
-    </div>
-
-    <!-- Llamada al script JS -->
-    <script src="pruebas.js" type="module"></script>
-</body>
-
+            <!--lista pedidos -->
+            <section class="grilla">
+                <h2>Lista de Pedidos</h2>
+                <table id="tablaPedidos">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Razon Social Cliente</th>
+                            <th>Fecha</th>
+                            <th>Nro Comprobante</th>
+                            <th>Total</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="contenidoTabla"></tbody>
+                </table>
+            </section>
+        </div>
+        <script src="pruebas.js" type="module"></script>
+    </body>
 </html>

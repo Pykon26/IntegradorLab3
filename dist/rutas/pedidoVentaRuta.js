@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const pedidoVentaControlador_1 = require("../controladores/pedidoVentaControlador");
 const router = express_1.default.Router();
+
 //rutas para los metodos de pedidoVentaControlador.ts
 router.post('/pedido_venta', pedidoVentaControlador_1.crearPedidoVenta);
 router.put('/pedido_venta/:id', pedidoVentaControlador_1.modificarPedidoVenta);
