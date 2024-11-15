@@ -5,6 +5,9 @@ import {
     eliminarPedidoVenta,
     obtenerPedidoVenta,
     buscarPedidoVenta,
+    obtenerPedidoVentaid,
+    ActualizarTotalPedido
+    
 } from '../controladores/pedidoVentaControlador';
 
 const router = express.Router();
@@ -15,5 +18,7 @@ router.put('/pedido_venta/:id', modificarPedidoVenta);
 router.delete('/pedido_venta/:id', eliminarPedidoVenta);
 router.get('/pedido_venta/:id', obtenerPedidoVenta);
 router.get('/pedido_venta/buscar', buscarPedidoVenta);
+router.get('/pedido_venta/:nroComprobante/:idcliente', obtenerPedidoVentaid);
+router.put('/pedido_venta/:id/actualizar-total/:totalPedido', ActualizarTotalPedido);
 
 export default router;

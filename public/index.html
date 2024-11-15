@@ -15,22 +15,7 @@
             <h1>Gestión de Pedidos de Venta</h1>
         </header>
 
-        <!-- Grilla de pedidos -->
-        <section class="grilla">
-            <h2>Lista de Pedidos</h2>
-            <table id="tablaPedidos">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Cliente</th>
-                        <th>Fecha</th>
-                        <th>Total</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody id="contenidoTabla"></tbody>
-            </table>
-        </section>
+      
 
         <!-- Formulario para crear/editar pedidos -->
         <section class="formulario">
@@ -74,7 +59,7 @@
         <section class="productos">
             <h2>Seleccionar Productos</h2>
             <form id="formProductoDetalle">
-                
+
                 <div class="form-group">
                     <label for="productos">Producto:</label>
                     <select id="productos" name="productos"></select>
@@ -90,8 +75,9 @@
             </form>
             
         </section>
-        
-        <button type="submit" class="btn">Finalizar Pedido</button>
+        <section>
+        <button type="submit" class="btn" id="btnFinalizarPedido">Finalizar Pedido</button>
+        </section>
 
         <!-- Buscador de pedidos -->
         <section class="buscador">
@@ -110,6 +96,23 @@
 
                 <button type="submit" class="btn">Buscar</button>
             </form>
+        </section>
+
+          <!-- Grilla de pedidos -->
+          <section class="grilla">
+            <h2>Lista de Pedidos</h2>
+            <table id="tablaPedidos">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Cliente</th>
+                        <th>Fecha</th>
+                        <th>Total</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="contenidoTabla"></tbody>
+            </table>
         </section>
     </div>
 

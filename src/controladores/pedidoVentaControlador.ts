@@ -99,3 +99,44 @@ export const buscarPedidoVenta = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Error al buscar pedidos de venta', error });
     }
 };
+
+export const obtenerPedidoVentaid = async (req: Request, res: Response) => {
+    const { nroComprobante, idcliente } = req.params;  // Obtener ambos parámetros desde los parámetros de la URL
+
+    try {
+        const [rows] = await db.execute<RowDataPacket[]>(
+            'SELECT id FROM pedido_venta WHERE nroComprobante = ? AND idcliente = ?',
+            [nroComprobante, idcliente]  // Usar ambos valores en la consulta SQL
+        );
+
+        if (rows.length > 0) {
+            res.status(200).json({ id: rows[0].id });  // Enviar solo el 'id' del pedido de venta
+        } else {
+            res.status(404).json({ message: 'Pedido de venta no encontrado' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Error al obtener pedido de venta', error });
+    }
+};
+
+
+ export const ActualizarTotalPedido = async (req: Request, res: Response) => {
+     const { totalPedido, id} = req.params;
+
+     try {
+         const [result] = await db.execute<ResultSetHeader>(
+             'UPDATE pedido_venta SET  totalPedido = ? WHERE id = ?',
+             [totalPedido, id]
+         );
+
+         if (result.affectedRows > 0) {
+             res.status(200).json({ message: 'Total de pedido de venta actualizado' });
+         } else {
+             res.status(404).json({ message: 'Total de pedido de venta no encontrado' });
+         }
+     } catch (error) {
+         res.status(500).json({ message: 'Error al modificar total de pedido de venta', error });
+     }
+ };
+
+

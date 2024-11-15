@@ -12,4 +12,6 @@ router.put('/pedido_venta/:id', pedidoVentaControlador_1.modificarPedidoVenta);
 router.delete('/pedido_venta/:id', pedidoVentaControlador_1.eliminarPedidoVenta);
 router.get('/pedido_venta/:id', pedidoVentaControlador_1.obtenerPedidoVenta);
 router.get('/pedido_venta/buscar', pedidoVentaControlador_1.buscarPedidoVenta);
+router.get('/pedido_venta/:nroComprobante/:idcliente', pedidoVentaControlador_1.obtenerPedidoVentaid);
+router.put('/pedido_venta/:id/actualizar-total/:totalPedido', pedidoVentaControlador_1.ActualizarTotalPedido);
 exports.default = router;

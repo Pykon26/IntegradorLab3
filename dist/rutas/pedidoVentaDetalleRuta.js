@@ -7,4 +7,5 @@ router.post('/pedido_venta_detalle', pedidoVentaDetalleControlador_1.crearDetall
 router.get('/pedido_venta_detalle/:id', pedidoVentaDetalleControlador_1.obtenerDetallesPedidoVenta);
 router.put('/pedido_venta_detalle/:id', pedidoVentaDetalleControlador_1.modificarDetallePedidoVenta);
 router.delete('/pedido_venta_detalle/:id', pedidoVentaDetalleControlador_1.eliminarDetallePedidoVenta);
+router.get('/pedido_venta_detalle/subtotales/:id', pedidoVentaDetalleControlador_1.obtenerPedidoDetallesSubtotales);
 exports.default = router;

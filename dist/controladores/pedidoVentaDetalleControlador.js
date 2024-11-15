@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.eliminarDetallePedidoVenta = exports.modificarDetallePedidoVenta = exports.obtenerDetallesPedidoVenta = exports.crearDetallePedidoVenta = void 0;
+exports.obtenerPedidoDetallesSubtotales = exports.eliminarDetallePedidoVenta = exports.modificarDetallePedidoVenta = exports.obtenerDetallesPedidoVenta = exports.crearDetallePedidoVenta = void 0;
 const database_1 = require("../database");
 //creo detalle
 const crearDetallePedidoVenta = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -75,3 +75,22 @@ const eliminarDetallePedidoVenta = (req, res) => __awaiter(void 0, void 0, void 
     }
 });
 exports.eliminarDetallePedidoVenta = eliminarDetallePedidoVenta;
+const obtenerPedidoDetallesSubtotales = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params; // Obtener el id de los parámetros de la URL
+    try {
+        const [rows] = yield database_1.db.execute('SELECT subtotal FROM pedido_venta_detalle WHERE idpedidoventa = ?', [id]);
+        // Si se encontraron filas con los subtotales
+        if (rows.length > 0) {
+            // Sumar todos los subtotales
+            const totalSubtotales = rows.reduce((total, row) => total + parseFloat(row.subtotal), 0);
+            res.status(200).json({ totalSubtotales }); // Devuelve el total de los subtotales
+        }
+        else {
+            res.status(404).json({ message: 'Detalles de pedido de venta no encontrados' });
+        }
+    }
+    catch (error) {
+        res.status(500).json({ message: 'Error al obtener detalles de pedido de venta', error });
+    }
+});
+exports.obtenerPedidoDetallesSubtotales = obtenerPedidoDetallesSubtotales;
