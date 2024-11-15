@@ -56,16 +56,16 @@ export const eliminarPedidoVenta = async (req: Request, res: Response) => {
 };
 
 export const obtenerPedidoVenta = async (req: Request, res: Response) => {
-    const { id } = req.params;
+    
 
     try {
         const [rows] = await db.execute<RowDataPacket[]>(
-            'SELECT * FROM pedido_venta WHERE id = ?',
-            [id]
+            'SELECT * FROM pedido_venta',
+            
         );
 
         if (rows.length > 0) {
-            res.status(200).json(rows[0]);
+            res.status(200).json(rows);
         } else {
             res.status(404).json({ message: 'Pedido de venta no encontrado' });
         }
@@ -74,31 +74,84 @@ export const obtenerPedidoVenta = async (req: Request, res: Response) => {
     }
 };
 
-export const buscarPedidoVenta = async (req: Request, res: Response) => {
-    const { nroComprobante, fechaInicio, fechaFin } = req.query;
+
+export const buscarPedidoVentaNroComprobante = async (req: Request, res: Response) => {
+    const { nroComprobante } = req.params;
 
     try {
         if (nroComprobante) {
-            //busca por numero de comprobante
+            // Busca por número de comprobante
             const [rows] = await db.execute(
                 'SELECT * FROM pedido_venta WHERE nroComprobante = ?',
                 [nroComprobante]
             );
-            res.status(200).json(rows);
-        } else if (fechaInicio && fechaFin) {
-            //busca por rango de fecha
+
+            // Verifica si rows tiene elementos (ya que ahora rows es un array)
+            if (Array.isArray(rows) && rows.length > 0) {
+                res.status(200).json(rows); // Retorna el resultado
+            } else {
+                res.status(404).json({ message: 'No se encontró el pedido con ese número de comprobante.' });
+            }
+        } else {
+            res.status(400).json({ message: 'Debe proporcionar el número de comprobante.' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Error al buscar el pedido de venta', error });
+    }
+};
+
+
+export const buscarPedidoVentaPorFechas = async (req: Request, res: Response) => {
+    const { fechaInicio, fechaFin } = req.query;
+
+    try {
+        if (fechaInicio && fechaFin) {
+            // Busca por rango de fechas
             const [rows] = await db.execute(
                 'SELECT * FROM pedido_venta WHERE fechaPedido BETWEEN ? AND ?',
                 [fechaInicio, fechaFin]
             );
-            res.status(200).json(rows);
+
+            // Verifica si rows tiene elementos (ya que ahora rows es un array)
+            if (Array.isArray(rows) && rows.length > 0) {
+                res.status(200).json(rows); // Retorna el resultado
+            } else {
+                res.status(404).json({ message: 'No se encontraron pedidos en ese rango de fechas.' });
+            }
         } else {
-            res.status(400).json({ message: 'Debe proporcionar nroComprobante o fechaInicio y fechaFin' });
+            res.status(400).json({ message: 'Debe proporcionar fechaInicio y fechaFin.' });
         }
     } catch (error) {
         res.status(500).json({ message: 'Error al buscar pedidos de venta', error });
     }
 };
+
+
+// export const buscarPedidoVenta = async (req: Request, res: Response) => {
+//     const { nroComprobante, fechaInicio, fechaFin } = req.query;
+
+//     try {
+//         if (nroComprobante) {
+//             //busca por numero de comprobante
+//             const [rows] = await db.execute(
+//                 'SELECT * FROM pedido_venta WHERE nroComprobante = ?',
+//                 [nroComprobante]
+//             );
+//             res.status(200).json(rows);
+//         } else if (fechaInicio && fechaFin) {
+//             //busca por rango de fecha
+//             const [rows] = await db.execute(
+//                 'SELECT * FROM pedido_venta WHERE fechaPedido BETWEEN ? AND ?',
+//                 [fechaInicio, fechaFin]
+//             );
+//             res.status(200).json(rows);
+//         } else {
+//             res.status(400).json({ message: 'Debe proporcionar nroComprobante o fechaInicio y fechaFin' });
+//         }
+//     } catch (error) {
+//         res.status(500).json({ message: 'Error al buscar pedidos de venta', error });
+//     }
+// };
 
 export const obtenerPedidoVentaid = async (req: Request, res: Response) => {
     const { nroComprobante, idcliente } = req.params;  // Obtener ambos parámetros desde los parámetros de la URL

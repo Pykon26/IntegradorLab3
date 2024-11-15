@@ -25,12 +25,12 @@ export const obtenerClienteid = async (req: Request, res: Response) => {
 
     try {
         const [rows] = await db.execute<RowDataPacket[]>(
-            'SELECT * FROM cliente WHERE id = ?',
+            'SELECT razonSocial FROM cliente WHERE id = ?',
             [id]
         );
 
         if (rows.length > 0) {
-            res.status(200).json(rows);
+            res.status(200).json(rows[0]); // Devolver solo el primer cliente
         } else {
             res.status(404).json({ message: 'Cliente no encontrado' });
         }
@@ -38,5 +38,6 @@ export const obtenerClienteid = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Error al obtener Cliente', error });
     }
 };
+
 
 

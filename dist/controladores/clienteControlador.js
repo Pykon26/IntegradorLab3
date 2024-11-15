@@ -29,9 +29,9 @@ exports.obtenerCliente = obtenerCliente;
 const obtenerClienteid = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     try {
-        const [rows] = yield database_1.db.execute('SELECT * FROM cliente WHERE id = ?', [id]);
+        const [rows] = yield database_1.db.execute('SELECT razonSocial FROM cliente WHERE id = ?', [id]);
         if (rows.length > 0) {
-            res.status(200).json(rows);
+            res.status(200).json(rows[0]); // Devolver solo el primer cliente
         }
         else {
             res.status(404).json({ message: 'Cliente no encontrado' });

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ActualizarTotalPedido = exports.obtenerPedidoVentaid = exports.buscarPedidoVenta = exports.obtenerPedidoVenta = exports.eliminarPedidoVenta = exports.modificarPedidoVenta = exports.crearPedidoVenta = void 0;
+exports.ActualizarTotalPedido = exports.obtenerPedidoVentaid = exports.buscarPedidoVentaPorFechas = exports.buscarPedidoVentaNroComprobante = exports.obtenerPedidoVenta = exports.eliminarPedidoVenta = exports.modificarPedidoVenta = exports.crearPedidoVenta = void 0;
 const database_1 = require("../database");
 const crearPedidoVenta = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { idcliente, fechaPedido, nroComprobante, formaPago, observaciones, totalPedido } = req.body;
@@ -56,11 +56,10 @@ const eliminarPedidoVenta = (req, res) => __awaiter(void 0, void 0, void 0, func
 });
 exports.eliminarPedidoVenta = eliminarPedidoVenta;
 const obtenerPedidoVenta = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
     try {
-        const [rows] = yield database_1.db.execute('SELECT * FROM pedido_venta WHERE id = ?', [id]);
+        const [rows] = yield database_1.db.execute('SELECT * FROM pedido_venta');
         if (rows.length > 0) {
-            res.status(200).json(rows[0]);
+            res.status(200).json(rows);
         }
         else {
             res.status(404).json({ message: 'Pedido de venta no encontrado' });
@@ -71,28 +70,76 @@ const obtenerPedidoVenta = (req, res) => __awaiter(void 0, void 0, void 0, funct
     }
 });
 exports.obtenerPedidoVenta = obtenerPedidoVenta;
-const buscarPedidoVenta = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { nroComprobante, fechaInicio, fechaFin } = req.query;
+const buscarPedidoVentaNroComprobante = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { nroComprobante } = req.params;
     try {
         if (nroComprobante) {
-            //busca por numero de comprobante
+            // Busca por número de comprobante
             const [rows] = yield database_1.db.execute('SELECT * FROM pedido_venta WHERE nroComprobante = ?', [nroComprobante]);
-            res.status(200).json(rows);
-        }
-        else if (fechaInicio && fechaFin) {
-            //busca por rango de fecha
-            const [rows] = yield database_1.db.execute('SELECT * FROM pedido_venta WHERE fechaPedido BETWEEN ? AND ?', [fechaInicio, fechaFin]);
-            res.status(200).json(rows);
+            // Verifica si rows tiene elementos (ya que ahora rows es un array)
+            if (Array.isArray(rows) && rows.length > 0) {
+                res.status(200).json(rows); // Retorna el resultado
+            }
+            else {
+                res.status(404).json({ message: 'No se encontró el pedido con ese número de comprobante.' });
+            }
         }
         else {
-            res.status(400).json({ message: 'Debe proporcionar nroComprobante o fechaInicio y fechaFin' });
+            res.status(400).json({ message: 'Debe proporcionar el número de comprobante.' });
+        }
+    }
+    catch (error) {
+        res.status(500).json({ message: 'Error al buscar el pedido de venta', error });
+    }
+});
+exports.buscarPedidoVentaNroComprobante = buscarPedidoVentaNroComprobante;
+const buscarPedidoVentaPorFechas = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { fechaInicio, fechaFin } = req.query;
+    try {
+        if (fechaInicio && fechaFin) {
+            // Busca por rango de fechas
+            const [rows] = yield database_1.db.execute('SELECT * FROM pedido_venta WHERE fechaPedido BETWEEN ? AND ?', [fechaInicio, fechaFin]);
+            // Verifica si rows tiene elementos (ya que ahora rows es un array)
+            if (Array.isArray(rows) && rows.length > 0) {
+                res.status(200).json(rows); // Retorna el resultado
+            }
+            else {
+                res.status(404).json({ message: 'No se encontraron pedidos en ese rango de fechas.' });
+            }
+        }
+        else {
+            res.status(400).json({ message: 'Debe proporcionar fechaInicio y fechaFin.' });
         }
     }
     catch (error) {
         res.status(500).json({ message: 'Error al buscar pedidos de venta', error });
     }
 });
-exports.buscarPedidoVenta = buscarPedidoVenta;
+exports.buscarPedidoVentaPorFechas = buscarPedidoVentaPorFechas;
+// export const buscarPedidoVenta = async (req: Request, res: Response) => {
+//     const { nroComprobante, fechaInicio, fechaFin } = req.query;
+//     try {
+//         if (nroComprobante) {
+//             //busca por numero de comprobante
+//             const [rows] = await db.execute(
+//                 'SELECT * FROM pedido_venta WHERE nroComprobante = ?',
+//                 [nroComprobante]
+//             );
+//             res.status(200).json(rows);
+//         } else if (fechaInicio && fechaFin) {
+//             //busca por rango de fecha
+//             const [rows] = await db.execute(
+//                 'SELECT * FROM pedido_venta WHERE fechaPedido BETWEEN ? AND ?',
+//                 [fechaInicio, fechaFin]
+//             );
+//             res.status(200).json(rows);
+//         } else {
+//             res.status(400).json({ message: 'Debe proporcionar nroComprobante o fechaInicio y fechaFin' });
+//         }
+//     } catch (error) {
+//         res.status(500).json({ message: 'Error al buscar pedidos de venta', error });
+//     }
+// };
 const obtenerPedidoVentaid = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { nroComprobante, idcliente } = req.params; // Obtener ambos parámetros desde los parámetros de la URL
     try {

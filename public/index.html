@@ -85,16 +85,17 @@
             <form id="formBusqueda">
                 <div class="form-group">
                     <label for="nroComprobanteBusqueda">Número de Comprobante:</label>
-                    <input type="text" id="nroComprobanteBusqueda" name="nroComprobanteBusqueda">
+                    <input type="number" id="nroComprobanteBusqueda" name="nroComprobanteBusqueda">
                 </div>
-
+                <button id="btnNroComprobanteBusqueda" type="submit" class="btn">Buscar</button>
+                </form>
+                <form>
                 <div class="form-group">
                     <label for="rangoFechas">Rango de Fechas:</label>
                     <input type="date" id="fechaInicio" name="fechaInicio">
                     <input type="date" id="fechaFin" name="fechaFin">
                 </div>
-
-                <button type="submit" class="btn">Buscar</button>
+                <button id="btnFechaBusqueda" type="submit" class="btn">Buscar</button>
             </form>
         </section>
 
@@ -105,8 +106,9 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Cliente</th>
+                        <th>Razon Social Cliente</th>
                         <th>Fecha</th>
+                        <th>Nro Comprobante</th>
                         <th>Total</th>
                         <th>Acciones</th>
                     </tr>

@@ -8,6 +8,6 @@ const promise_1 = __importDefault(require("mysql2/promise"));
 exports.db = promise_1.default.createPool({
     host: 'localhost',
     user: 'root',
-    password: 'Matiaspicon26.',
-    database: 'empleados'
+    password: '',
+    database: 'tienda'
 });

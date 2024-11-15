@@ -4,7 +4,8 @@ import {
     modificarPedidoVenta,
     eliminarPedidoVenta,
     obtenerPedidoVenta,
-    buscarPedidoVenta,
+    buscarPedidoVentaNroComprobante,
+    buscarPedidoVentaPorFechas,
     obtenerPedidoVentaid,
     ActualizarTotalPedido
     
@@ -16,8 +17,11 @@ const router = express.Router();
 router.post('/pedido_venta', crearPedidoVenta);
 router.put('/pedido_venta/:id', modificarPedidoVenta);
 router.delete('/pedido_venta/:id', eliminarPedidoVenta);
-router.get('/pedido_venta/:id', obtenerPedidoVenta);
-router.get('/pedido_venta/buscar', buscarPedidoVenta);
+router.get('/pedido_venta', obtenerPedidoVenta);
+router.get('/pedido_venta/buscar/:nroComprobante', buscarPedidoVentaNroComprobante);
+
+router.get('/pedido_venta/buscar', buscarPedidoVentaPorFechas);
+
 router.get('/pedido_venta/:nroComprobante/:idcliente', obtenerPedidoVentaid);
 router.put('/pedido_venta/:id/actualizar-total/:totalPedido', ActualizarTotalPedido);
 
