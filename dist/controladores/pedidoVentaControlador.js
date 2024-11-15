@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ActualizarTotalPedido = exports.obtenerPedidoVentaid = exports.buscarPedidoVentaPorFechas = exports.buscarPedidoVentaNroComprobante = exports.obtenerPedidoVenta = exports.eliminarPedidoVenta = exports.modificarPedidoVenta = exports.crearPedidoVenta = void 0;
+exports.ActualizarTotalPedido = exports.obtenerPedidoVentaid = exports.buscarPedidoVentaPorFechas = exports.buscarPedidoVentaNroComprobante = exports.obtenerPedidoVenta = exports.eliminarPedidoVenta = exports.obtenerPedidoVentaId = exports.modificarPedidoVenta = exports.crearPedidoVenta = void 0;
 const database_1 = require("../database");
 const crearPedidoVenta = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { idcliente, fechaPedido, nroComprobante, formaPago, observaciones, totalPedido } = req.body;
@@ -39,6 +39,23 @@ const modificarPedidoVenta = (req, res) => __awaiter(void 0, void 0, void 0, fun
     }
 });
 exports.modificarPedidoVenta = modificarPedidoVenta;
+const obtenerPedidoVentaId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    try {
+        // Aseguramos que rows es de tipo RowDataPacket[]
+        const [rows] = yield database_1.db.execute('SELECT * FROM pedido_venta WHERE id = ?', [id]);
+        if (rows.length > 0) {
+            res.status(200).json(rows[0]); // Retorna el pedido encontrado
+        }
+        else {
+            res.status(404).json({ message: 'Pedido de venta no encontrado' });
+        }
+    }
+    catch (error) {
+        res.status(500).json({ message: 'Error al obtener pedido de venta', error });
+    }
+});
+exports.obtenerPedidoVentaId = obtenerPedidoVentaId;
 const eliminarPedidoVenta = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     try {
@@ -116,30 +133,6 @@ const buscarPedidoVentaPorFechas = (req, res) => __awaiter(void 0, void 0, void 
     }
 });
 exports.buscarPedidoVentaPorFechas = buscarPedidoVentaPorFechas;
-// export const buscarPedidoVenta = async (req: Request, res: Response) => {
-//     const { nroComprobante, fechaInicio, fechaFin } = req.query;
-//     try {
-//         if (nroComprobante) {
-//             //busca por numero de comprobante
-//             const [rows] = await db.execute(
-//                 'SELECT * FROM pedido_venta WHERE nroComprobante = ?',
-//                 [nroComprobante]
-//             );
-//             res.status(200).json(rows);
-//         } else if (fechaInicio && fechaFin) {
-//             //busca por rango de fecha
-//             const [rows] = await db.execute(
-//                 'SELECT * FROM pedido_venta WHERE fechaPedido BETWEEN ? AND ?',
-//                 [fechaInicio, fechaFin]
-//             );
-//             res.status(200).json(rows);
-//         } else {
-//             res.status(400).json({ message: 'Debe proporcionar nroComprobante o fechaInicio y fechaFin' });
-//         }
-//     } catch (error) {
-//         res.status(500).json({ message: 'Error al buscar pedidos de venta', error });
-//     }
-// };
 const obtenerPedidoVentaid = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { nroComprobante, idcliente } = req.params; // Obtener ambos parámetros desde los parámetros de la URL
     try {

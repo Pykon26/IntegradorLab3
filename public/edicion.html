@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Editar Pedido</title>
+    <link rel="stylesheet" href="styles2.css">
+</head>
+
+<body>
+    <h1>Editar Pedido</h1>
+
+    <!-- Formulario Pedido -->
+    <form id="formPedido">
+        <label>ID Cliente: </label>
+        <input type="text" id="idCliente" readonly><br>
+
+        <label>Fecha Pedido: </label>
+        <input type="date" id="fechaPedido" readonly><br>
+
+        <label>Número Comprobante: </label>
+        <input type="number" id="nroComprobante"><br>
+
+        <label>Forma de Pago: </label>
+        <input type="text" id="formaPago"><br>
+
+        <label>Observaciones: </label>
+        <textarea id="observaciones"></textarea><br>
+
+        <label>Total Pedido: </label>
+        <input type="number" id="totalPedido" readonly><br>
+    </form>
+
+    <!-- Formulario Pedido Detalle -->
+    <h2>Detalle del Pedido</h2>
+    <table id="detallePedido">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <button onclick="guardarCambios()">Guardar Cambios</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            cargarDatosPedido();
+        });
+
+        // Obtener datos del pedido y detalles
+        async function cargarDatosPedido() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const idPedido = urlParams.get('id');
+
+            console.log("ID PEDIDO: " + idPedido);
+
+            try {
+                const response = await fetch(`/api/pedido_venta/${idPedido}`);
+                const data = await response.json();
+
+                console.log('Datos recibidos:', data);
+
+                // Verifica si `data.pedido` existe antes de asignar valores
+                if (data) {
+                    document.getElementById('idCliente').value = data.idcliente; // Cambiado de `data.pedido.idCliente` a `data.idcliente`
+                    document.getElementById('fechaPedido').value = data.fechaPedido.split('T')[0]; // Formatea la fecha si es necesario
+                    document.getElementById('nroComprobante').value = data.nroComprobante;
+                    document.getElementById('formaPago').value = data.formaPago;
+                    document.getElementById('observaciones').value = data.observaciones;
+                    document.getElementById('totalPedido').value = data.totalPedido;
+                } else {
+                    console.error('No se encontró el pedido en la respuesta.');
+                }
+                
+                // 2. Obtener los detalles del pedido
+        const responseDetalles = await fetch(`/api/pedido_venta_detalle/${idPedido}`);
+        const dataDetalles = await responseDetalles.json();
+
+        console.log('Detalles del pedido recibidos:', dataDetalles);
+
+        if (responseDetalles.ok && dataDetalles.length > 0) {
+            // 3. Cargar los detalles en la tabla
+            const tbody = document.getElementById('detallePedido').querySelector('tbody');
+            tbody.innerHTML = ''; // Limpia contenido existente
+
+            dataDetalles.forEach(detalle => {
+                const row = document.createElement('tr');
+
+                // Crear celda de producto (select)
+                const productoCell = document.createElement('td');
+                const select = document.createElement('select');
+                // Suponiendo que tienes un array global `productos` con las opciones
+                productos.forEach(producto => {
+                    const option = document.createElement('option');
+                    option.value = producto.id;
+                    option.textContent = producto.denominacion;
+                    if (producto.id === detalle.idProducto) {
+                        option.selected = true;
+                    }
+                    select.appendChild(option);
+                });
+                productoCell.appendChild(select);
+                row.appendChild(productoCell);
+
+                // Crear celda de cantidad (input)
+                const cantidadCell = document.createElement('td');
+                const cantidadInput = document.createElement('input');
+                cantidadInput.type = 'number';
+                cantidadInput.value = detalle.cantidad;
+                cantidadCell.appendChild(cantidadInput);
+                row.appendChild(cantidadCell);
+
+                // Crear celda de subtotal
+                const subtotalCell = document.createElement('td');
+                subtotalCell.textContent = detalle.subtotal.toFixed(2); // Formatear como decimal
+                row.appendChild(subtotalCell);
+
+                // Agregar fila a la tabla
+                tbody.appendChild(row);
+            });
+        } else {
+            console.warn('No se encontraron detalles para el pedido.');
+        }
+            } catch (error) {
+                console.error('Error al cargar los datos del pedido:', error);
+            }
+        }
+
+        async function guardarCambios() {
+            const detalles = Array.from(document.querySelectorAll('#detallePedido tbody tr')).map(row => ({
+                idProducto: row.querySelector('select').value,
+                cantidad: row.querySelector('input[type="number"]').value,
+            }));
+
+            const pedido = {
+                nroComprobante: document.getElementById('nroComprobante').value,
+                formaPago: document.getElementById('formaPago').value,
+                observaciones: document.getElementById('observaciones').value,
+                detalles,
+            };
+
+            try {
+                const response = await fetch('/api/pedido', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(pedido),
+                });
+
+                if (response.ok) {
+                    alert('Pedido actualizado correctamente');
+                    // Redirige a la página principal
+                    window.location.href = 'index.html';
+                } else {
+                    alert('Error al actualizar el pedido');
+                }
+            } catch (error) {
+                alert('Ocurrió un error al guardar los cambios: ' + error.message);
+            }
+        }  </script>
+</body>
+
+</html>

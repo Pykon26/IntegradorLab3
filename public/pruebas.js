@@ -302,11 +302,18 @@ async function cargarPedidos() {
 
                 const editarBtn = document.createElement('button');
                 editarBtn.textContent = 'Editar';
+                editarBtn.addEventListener('click', () => editarPedido(pedido.id));
 
                 const editarCell = row.querySelector('td:last-child');
                 editarCell.appendChild(editarBtn);
 
-
+                const pdfBtn = document.createElement('button');
+                pdfBtn.textContent = 'PDF';
+                //pdfBtn.addEventListener('click', () => bajaPedido(pedido.id));
+    
+                const PDFCell = row.querySelector('td:last-child');
+                PDFCell.appendChild(pdfBtn);
+    
 
                 
 
@@ -383,10 +390,17 @@ async function buscarPedidoPorComprobante(event) {
 
             const editarBtn = document.createElement('button');
             editarBtn.textContent = 'Editar';
-            //editarBtn.addEventListener('click', () => editarPedido(pedido.id));
+            editarBtn.addEventListener('click', () => editarPedido(pedido.id));
 
             const editarCell = row.querySelector('td:last-child');
             editarCell.appendChild(editarBtn);
+
+            const pdfBtn = document.createElement('button');
+            pdfBtn.textContent = 'PDF';
+            //pdfBtn.addEventListener('click', () => bajaPedido(pedido.id));
+
+            const PDFCell = row.querySelector('td:last-child');
+            PDFCell.appendChild(pdfBtn);
 
             pedidosTable.appendChild(row);
         }
@@ -395,6 +409,13 @@ async function buscarPedidoPorComprobante(event) {
         alert('Ocurrió un error al buscar el pedido');
     }
 }
+
+
+// Asociar evento al botón
+// editarBtn.addEventListener('click', function () {
+//     const idPedido = row.dataset.id; // Suponiendo que el ID del pedido está almacenado en un atributo data-id
+//     window.location.href = /editar-pedido?id=${idPedido};
+//   });
 
 
 async function buscarPedidoPorFecha(event) {
@@ -451,10 +472,17 @@ async function buscarPedidoPorFecha(event) {
 
             const editarBtn = document.createElement('button');
             editarBtn.textContent = 'Editar';
-            //editarBtn.addEventListener('click', () => editarPedido(pedido.id));
+            editarBtn.addEventListener('click', () => editarPedido(pedido.id));
 
             const editarCell = row.querySelector('td:last-child');
             editarCell.appendChild(editarBtn);
+
+            const pdfBtn = document.createElement('button');
+            pdfBtn.textContent = 'PDF';
+            //pdfBtn.addEventListener('click', () => bajaPedido(pedido.id));
+
+            const PDFCell = row.querySelector('td:last-child');
+            PDFCell.appendChild(pdfBtn);
 
             pedidosTable.appendChild(row);
         }
@@ -463,3 +491,10 @@ async function buscarPedidoPorFecha(event) {
         alert('Ocurrió un error al buscar los pedidos');
     }
 }
+
+
+function editarPedido(idPedido) {
+    // Redirige a la página de edición pasando el ID como parámetro
+    window.location.href = `edicion.html?id=${idPedido}`;
+
+  }

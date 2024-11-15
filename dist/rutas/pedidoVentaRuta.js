@@ -9,6 +9,7 @@ const router = express_1.default.Router();
 //rutas para los metodos de pedidoVentaControlador.ts
 router.post('/pedido_venta', pedidoVentaControlador_1.crearPedidoVenta);
 router.put('/pedido_venta/:id', pedidoVentaControlador_1.modificarPedidoVenta);
+router.get('/pedido_venta/:id', pedidoVentaControlador_1.obtenerPedidoVentaId);
 router.delete('/pedido_venta/:id', pedidoVentaControlador_1.eliminarPedidoVenta);
 router.get('/pedido_venta', pedidoVentaControlador_1.obtenerPedidoVenta);
 router.get('/pedido_venta/buscar/:nroComprobante', pedidoVentaControlador_1.buscarPedidoVentaNroComprobante);
